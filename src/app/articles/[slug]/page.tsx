@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticles, getArticleBySlug } from "@/lib/microcms";
+import { getArticles, getArticleBySlug, getArticleBody } from "@/lib/microcms";
+
+export const revalidate = 60; // ISR: 60秒ごとに再生成
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -88,7 +90,7 @@ export default async function ArticlePage({ params }: Props) {
       {/* Article Body */}
       <article
         className="prose prose-lg max-w-none"
-        dangerouslySetInnerHTML={{ __html: article.body }}
+        dangerouslySetInnerHTML={{ __html: getArticleBody(article) }}
       />
 
       {/* Related Articles */}

@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getArticles } from "@/lib/microcms";
 
+export const revalidate = 60; // ISR: 60秒ごとに再生成
+
 export const metadata: Metadata = {
   title: "記事一覧 | optdev media",
   description: "optdev mediaの記事一覧ページです。",

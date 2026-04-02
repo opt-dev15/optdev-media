@@ -18,18 +18,33 @@ export type Tag = {
   slug: string;
 } & MicroCMSListContent;
 
+export type RichTextBlock = {
+  fieldId: "richTextBlock";
+  richText: string;
+};
+
 export type Article = {
   title: string;
   slug: string;
   description: string;
   ogimage?: MicroCMSImage;
-  body: string;
+  body?: string;
+  blocks?: RichTextBlock[];
   category?: Category;
   tags?: Tag[];
   thumbnail?: MicroCMSImage;
   metaTitle?: string;
   relatedArticles?: Article[];
 } & MicroCMSListContent;
+
+/** bodyフィールドまたはblocksフィールドからHTMLを取得 */
+export function getArticleBody(article: Article): string {
+  if (article.body) return article.body;
+  if (article.blocks) {
+    return article.blocks.map((block) => block.richText).join("");
+  }
+  return "";
+}
 
 // ---------- Client ----------
 
